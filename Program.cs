@@ -10,40 +10,14 @@ namespace SnakeLadderGame
             Console.WriteLine("================================");
 
             int playerScore;
+            int diceRolled;
 
             playerScore = 0;
             Console.WriteLine("Initial Player Score : " + playerScore);
 
-            while (playerScore != 100)
-            {
-                if (playerScore < 0)
-                    playerScore = 0;
+            diceRolled = DiceRolledToWin();
+            Console.WriteLine("The player rolled the dice " + diceRolled + " number of times to win");
 
-                int currentScore;
-                currentScore = RollTheDie();
-                Console.WriteLine("The die rolled to " + currentScore);
-
-                string option;
-                option = CheckOptions();
-                Console.WriteLine("We got the option " + option);
-
-                switch (option)
-                {
-                    case "NoPlay":
-                        break;
-                    case "Ladder":
-                        playerScore += currentScore;
-                        if (playerScore > 100)
-                            playerScore -= currentScore;
-                        break;
-                    case "Snake":
-                        playerScore -= currentScore;
-                        break;
-                    default:
-                        break;
-                }
-                Console.WriteLine("Score After rolling the dice is " + playerScore+"\n");
-            }
             return;
         }
 
@@ -63,6 +37,44 @@ namespace SnakeLadderGame
             idx = random.Next(0, 3);
 
             return options[idx];
+        }
+
+        static int DiceRolledToWin()
+        {
+            int playerScore = 0;
+            int terms=0;
+
+            while (playerScore != 100)
+            {  
+                if (playerScore < 0)
+                    playerScore = 0;
+
+                int currentScore;
+                currentScore = RollTheDie();
+                terms++;
+
+                string option;
+                option = CheckOptions();
+
+                switch (option)
+                {
+                    case "NoPlay":
+                        break;
+                    case "Ladder":
+                        playerScore += currentScore;
+                        if (playerScore > 100)
+                            playerScore -= currentScore;
+                        break;
+                    case "Snake":
+                        playerScore -= currentScore;
+                        break;
+                    default:
+                        break;
+                }
+                Console.WriteLine("Current Score is " + playerScore);    
+            }
+
+            return terms;
         }
     }
 }
