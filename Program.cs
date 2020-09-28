@@ -10,33 +10,38 @@ namespace SnakeLadderGame
             Console.WriteLine("================================");
 
             int playerScore;
-            
+
             playerScore = 0;
             Console.WriteLine("Initial Player Score : " + playerScore);
 
-            int currentScore;
-            currentScore = RollTheDie();
-            Console.WriteLine("The die rolled to " + currentScore);
-
-            string option;
-            option = CheckOptions();
-            Console.WriteLine("We got the option " + option);
-
-            switch(option)
+            while (playerScore < 100)
             {
-                case "NoPlay":
-                    break;
-                case "Ladder":
-                    playerScore += currentScore;
-                    break;
-                case "Snake":
-                    playerScore -= currentScore;
-                    break;
-                default:
-                    break;
-            }
-            Console.WriteLine("Score After rolling the dice is " + playerScore);
+                if (playerScore < 0)
+                    playerScore = 0;
 
+                int currentScore;
+                currentScore = RollTheDie();
+                Console.WriteLine("The die rolled to " + currentScore);
+
+                string option;
+                option = CheckOptions();
+                Console.WriteLine("We got the option " + option);
+
+                switch (option)
+                {
+                    case "NoPlay":
+                        break;
+                    case "Ladder":
+                        playerScore += currentScore;
+                        break;
+                    case "Snake":
+                        playerScore -= currentScore;
+                        break;
+                    default:
+                        break;
+                }
+                Console.WriteLine("Score After rolling the dice is " + playerScore+"\n");
+            }
             return;
         }
 
@@ -53,7 +58,7 @@ namespace SnakeLadderGame
             int idx;
 
             Random random = new Random();
-            idx = random.Next(0,3);
+            idx = random.Next(0, 3);
 
             return options[idx];
         }
