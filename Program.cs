@@ -9,14 +9,17 @@ namespace SnakeLadderGame
             Console.WriteLine("Welcome to Snake and Ladder Game");
             Console.WriteLine("================================");
 
-            int playerScore;
-            int diceRolled;
+            int player1Score, player2Score;
+            
+            player1Score = 0;
+            player2Score = 0;
+            Console.WriteLine("Initial Player Score : " + player1Score);
 
-            playerScore = 0;
-            Console.WriteLine("Initial Player Score : " + playerScore);
-
-            diceRolled = DiceRolledToWin();
-            Console.WriteLine("The player rolled the dice " + diceRolled + " number of times to win");
+            DiceRolledToWin(ref player1Score, ref player2Score);
+            if (player1Score > player2Score)
+                Console.WriteLine("1st Player Won the Match");
+            else
+                Console.WriteLine("2nd Player Won the Match");
 
             return;
         }
@@ -39,42 +42,56 @@ namespace SnakeLadderGame
             return options[idx];
         }
 
-        static int DiceRolledToWin()
+        static void DiceRolledToWin(ref int player1Score, ref int player2Score)
         {
-            int playerScore = 0;
-            int terms=0;
+            bool isLadder;
+            while (player1Score != 100 && player2Score !=100)
+            {
+                isLadder = true;
+                while (isLadder)
+                    isLadder = RollAndPlay(ref player1Score);
+                isLadder = true;
+                while (isLadder)
+                    isLadder = RollAndPlay(ref player2Score);
 
-            while (playerScore != 100)
-            {  
-                if (playerScore < 0)
-                    playerScore = 0;
-
-                int currentScore;
-                currentScore = RollTheDie();
-                terms++;
-
-                string option;
-                option = CheckOptions();
-
-                switch (option)
-                {
-                    case "NoPlay":
-                        break;
-                    case "Ladder":
-                        playerScore += currentScore;
-                        if (playerScore > 100)
-                            playerScore -= currentScore;
-                        break;
-                    case "Snake":
-                        playerScore -= currentScore;
-                        break;
-                    default:
-                        break;
-                }
-                Console.WriteLine("Current Score is " + playerScore);    
+                Console.WriteLine("Current Score of 1st Player is " + player1Score); 
+                Console.WriteLine("Current Score of 2nd Player is " + player2Score);     
             }
 
-            return terms;
+            return;
+        }
+
+        static bool RollAndPlay(ref int score)
+        {
+            int currentScore;
+            currentScore = RollTheDie();
+
+            string option;
+            option = CheckOptions();
+
+            switch (option)
+            {
+                case "NoPlay":
+                    break;
+                case "Ladder":
+                    score += currentScore;
+                    if (score > 100)
+                        score -= currentScore;
+                    break;
+                case "Snake":
+                    score -= currentScore;
+                    break;
+                default:
+                    break;
+            }
+
+            if (score < 0)
+                score = 0;
+
+            if (option == "Ladder")
+                return true;
+            else
+                return false;
         }
     }
 }
