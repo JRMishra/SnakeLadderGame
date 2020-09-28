@@ -14,7 +14,7 @@ namespace SnakeLadderGame
             playerScore = 0;
             Console.WriteLine("Initial Player Score : " + playerScore);
 
-            while (playerScore < 100)
+            while (playerScore != 100)
             {
                 if (playerScore < 0)
                     playerScore = 0;
@@ -33,6 +33,8 @@ namespace SnakeLadderGame
                         break;
                     case "Ladder":
                         playerScore += currentScore;
+                        if (playerScore > 100)
+                            playerScore -= currentScore;
                         break;
                     case "Snake":
                         playerScore -= currentScore;
